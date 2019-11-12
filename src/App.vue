@@ -1,60 +1,92 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
+    <v-layout row wrap>
+
+{{GetAllVenueTitles}}
+
+
+
+  <v-card v-for="event in events" :key="event"
+    class="mx-auto"
+    max-width="400"
+  >
+    <v-img
+      class="white--text align-end"
+      height="200px"
+      src=""
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-card-title>{{event.event_title}}</v-card-title>
+    </v-img>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    <v-card-subtitle class="pb-0">{{event.show_id}}</v-card-subtitle>
 
-      <v-spacer></v-spacer>
+    <v-card-text class="text--primary">
+      <div>Whitehaven Beach</div>
 
+      <div>Whitsunday Island, Whitsunday Islands</div>
+    </v-card-text>
+
+    <v-card-actions>
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        color="orange"
         text
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        Share
       </v-btn>
-    </v-app-bar>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+      <v-btn
+        color="orange"
+        text
+      >
+        Explore
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+
+</v-layout>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import {HTTP} from './http-common'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+
   },
 
   data: () => ({
-    //
+    events: [],
+    errors: [],
+    venues: []
+
   }),
+  created() {
+      HTTP
+      .get ('')
+      .then(response => {
+          this.events = response.data
+          console.log(this.events)
+         })
+      .catch (e=>{
+          this.errors.push(e)
+      })
+  },
+
+  computed:{
+      GetAllVenueTitles: (events)=> {
+        for (var i = 0; i< events.length; i++){
+            return  alert("Привет!")
+
+          }
+      }
+
+  }
+
+
+
+
+
+
 };
 </script>
