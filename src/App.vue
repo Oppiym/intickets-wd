@@ -5,7 +5,7 @@
         <v-col class="d-flex" cols="12" sm="6">
           <v-select
             v-model="venue"
-
+            @input="uploadEventsToSecondSelect"
             :items="listofVenues"
             label="Выберете площадку"
           ></v-select>
@@ -115,6 +115,7 @@ export default {
   },
   methods: {
     uploadEventsToSecondSelect() {
+        alert ('sdfdf')
       return;
     }
   },
