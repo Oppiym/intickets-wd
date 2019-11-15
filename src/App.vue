@@ -1,4 +1,5 @@
 <template>
+<<<<<<< Updated upstream
 <v-app>
   <v-container fluid>
     <v-row align="center">
@@ -17,6 +18,49 @@
           </v-img>
 
           <v-card-subtitle class="pb-0">{{
+=======
+  <v-app>
+    <v-container fluid>
+      <v-row align="center">
+        <v-col class="d-flex" cols="12" sm="6">
+          <v-select
+            v-model="venue"
+            :items="listofVenues"
+            label="Выберете площадку"
+          ></v-select>
+        </v-col>
+        <v-col class="d-flex" cols="12" sm="6">
+          <v-select
+            v-model="show"
+            :items="listofEvents"
+            filled
+            no-data-text="Сначала нужно выбрать площадку"
+            label="Выберете мероприятие"
+            @input="uploadSortedByShows"
+          ></v-select>
+        </v-col>
+      </v-row>
+      <v-row v-if="isSelected">
+        <v-col 
+          v-for="(event, i) in newArrOfEvents"
+          :key="i"
+          cols="12"
+          sm="6"
+          md="3"
+          lg="2"
+          xl="2"
+        >
+          <v-card class="mx-auto" max-width="400">
+            <v-img
+              class="white--text align-end"
+              height="200px"
+              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+            >
+              <v-card-title>{{ event.event_title }}</v-card-title>
+            </v-img>
+
+            <v-card-subtitle class="pb-0">{{
+>>>>>>> Stashed changes
               event.show_start
             }}</v-card-subtitle>
 
