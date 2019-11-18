@@ -46,23 +46,21 @@
             <v-card-text class="text--primary">
               <div>{{ event.venue_title }}</div>
               <div>{{ event.hall_title }}</div>
-              <!---      <div>{{ ticketCost }}</div> -->
+              <div>{{ event.cost }}</div>
             </v-card-text>
 
-          <v-card-actions>
-            <v-btn color="orange" text> Купить билет </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-</v-app>
+            <v-card-actions>
+              <v-btn color="orange" text> Купить билет </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
-import {
-  HTTP
-} from "./http-common";
+import { HTTP } from "./http-common";
 
 export default {
   name: "App",
@@ -76,7 +74,33 @@ export default {
     HTTP.get("shows/0/0/0/0")
       .then(response => {
         this.events = response.data;
-        console.log(this.events);
+
+        this.events.forEach(element => {
+          if (element.cost !== null) {
+            if (element.cost.min !== element.cost.max) {
+              element.cost = element.cost.min + " - " + element.cost.max;
+            } else {
+              element.cost = element.cost.min;
+            }
+          } else {
+            element.cost = "";
+          }
+        });
+        var i;
+        for (i = 0; i < this.events.length; i++) {
+          var date = new Date(
+            Date.parse(this.events[i].show_start)
+          ).toLocaleString("ru", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+            weekday: "long",
+            timezone: "UTC",
+            hour: "numeric",
+            minute: "numeric"
+          });
+          this.events[i].show_start = date[0].toUpperCase() + date.slice(1);
+        }
       })
 
       .catch(e => {
@@ -85,16 +109,14 @@ export default {
   },
   methods: {
     uploadSortedByShows() {
-      this.newArrOfEvents = this.newArrOfEvents.filter(
-        item => item.event_title === this.show
-      );
+        
+
     }
   },
   computed: {
     isSelected() {
       var check = this.venue || this.show;
-      console.log(check);
-      return this.venue || this.show;
+      return check;
     },
     listofVenues() {
       var i;
@@ -111,7 +133,7 @@ export default {
         1,
         venue_titles_formatted[j]
       )[0];
-      console.log(venue_titles_formatted);
+
       return venue_titles_formatted;
     },
     listofEvents() {
@@ -122,7 +144,7 @@ export default {
         event_titles.push(this.newArrOfEvents[i].event_title);
       }
       shows = Array.from(new Set(event_titles));
-      console.log(shows);
+
       return shows.sort();
     },
 
@@ -131,15 +153,18 @@ export default {
         return this.events.filter(item => item.venue_title === this.venue);
       },
 
-      set(value) {
-        var newEvents = value;
-        console.log(newEvents, typeof newEvents, "ЭТО В СЕТТЕРЕ newEvents");
-      }
+      set() {
+
+       }
     }
   }
 };
 </script>
-
+<style>
+.v-card__title {
+  word-break: break-word !important;
+}
+</style>
 <!--
 
 ticketCost(){
