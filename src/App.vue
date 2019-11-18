@@ -1,24 +1,4 @@
 <template>
-<<<<<<< Updated upstream
-<v-app>
-  <v-container fluid>
-    <v-row align="center">
-      <v-col class="d-flex" cols="12" sm="6">
-        <v-select v-model="venue" :items="listofVenues" label="Выберете площадку"></v-select>
-      </v-col>
-      <v-col class="d-flex" cols="12" sm="6">
-        <v-select v-model="show" :items="listofEvents" filled no-data-text="Сначала нужно выбрать площадку" label="Выберете мероприятие" @input="uploadSortedByShows"></v-select>
-      </v-col>
-    </v-row>
-    <v-row v-if="isSelected">
-      <v-col v-for="(event, i) in newArrOfEvents" :key="i" cols="12" sm="6" md="3" lg="2" xl="2">
-        <v-card class="mx-auto" max-width="400">
-          <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <v-card-title>{{ event.event_title }}</v-card-title>
-          </v-img>
-
-          <v-card-subtitle class="pb-0">{{
-=======
   <v-app>
     <v-container fluid>
       <v-row align="center">
@@ -41,7 +21,7 @@
         </v-col>
       </v-row>
       <v-row v-if="isSelected">
-        <v-col 
+        <v-col
           v-for="(event, i) in newArrOfEvents"
           :key="i"
           cols="12"
@@ -60,15 +40,14 @@
             </v-img>
 
             <v-card-subtitle class="pb-0">{{
->>>>>>> Stashed changes
               event.show_start
             }}</v-card-subtitle>
 
-          <v-card-text class="text--primary">
-            <div>{{ event.venue_title }}</div>
-            <div>{{ event.hall_title }}</div>
-            <div>{{ event.cost }}</div>
-          </v-card-text>
+            <v-card-text class="text--primary">
+              <div>{{ event.venue_title }}</div>
+              <div>{{ event.hall_title }}</div>
+              <!---      <div>{{ ticketCost }}</div> -->
+            </v-card-text>
 
           <v-card-actions>
             <v-btn color="orange" text> Купить билет </v-btn>
@@ -97,18 +76,7 @@ export default {
     HTTP.get("shows/0/0/0/0")
       .then(response => {
         this.events = response.data;
-
-        var i = 0
-        while (i < this.events.length) {
-          if (this.events[i].cost.min || this.events[i].cost.max === null || undefined) {
-            this.events[i].cost = 300
-          } else {
-            this.events[i].cost = 1000
-          }
-
-          i++;
-        }
-        console.log(this.events, 'ПОСЛЕЦИКЛА')
+        console.log(this.events);
       })
 
       .catch(e => {

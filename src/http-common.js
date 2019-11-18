@@ -4,7 +4,7 @@ export const HTTP = axios.create({
     baseURL: 'https://api.intickets.ru/widget/v1/',
     timeout: 1000,
     headers: {
-    Authorization: 'Bearer 7c23494f-03c8-4b6f-ceda-e18635145b5b'}
+    Authorization: 'Bearer 9981fc67-d375-fba8-7f85-307a30cce3a7'}
 }
 
 )
