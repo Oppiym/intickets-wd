@@ -7,8 +7,7 @@
             v-model="venue"
             :items="listofVenues"
             label="Выберете площадку"
-            @change = noShow
-
+            @change="noShow"
           ></v-select>
         </v-col>
         <v-col class="d-flex" cols="12" sm="6">
@@ -69,47 +68,52 @@ export default {
     show: "",
     venue: 'Культурный центр "Москворечье"',
     events: [],
-    errors: [],
+    errors: []
   }),
   created() {
-    HTTP.get("shows/0/0/0/0")
-      .then(response => {
-        this.events = response.data;
-///Делаем поле cost нормальным
-        this.events.forEach(element => {
-          if (element.cost !== null) {
-            if (element.cost.min !== element.cost.max) {
-              element.cost = element.cost.min + " - " + element.cost.max;
-            } else {
-              element.cost = element.cost.min;
-            }
+    HTTP.get("shows/0/0/0/0").then(response => {
+      this.events = response.data;
+      console.log(this.events);
+      ///Делаем поле cost нормальным
+      this.events.forEach(element => {
+        if (element.cost !== null) {
+          if (element.cost.min !== element.cost.max) {
+            element.cost = element.cost.min + " - " + element.cost.max;
           } else {
-            element.cost = "";
+            element.cost = element.cost.min;
           }
-        });
-///Делаем поле show_start нормальным
-        this.events.forEach(element => {
-          var date = new Date( Date.parse(element.show_start) ).toLocaleString("ru", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "2-digit",
-            weekday: "long",
-            timezone: "UTC",
-            hour: "numeric",
-            minute: "numeric"
-          });
+        } else {
+          element.cost = "";
+        }
+      });
+      ///Делаем поле show_start нормальным
+      this.events
+        .forEach(element => {
+          var date = new Date(Date.parse(element.show_start)).toLocaleString(
+            "ru",
+            {
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+              weekday: "long",
+              timezone: "UTC",
+              hour: "numeric",
+              minute: "numeric"
+            }
+          );
           element.show_start = date[0].toUpperCase() + date.slice(1);
         })
 
-      .catch(e => {
-        this.errors.push(e);
-      });
-  })},
+        .catch(e => {
+          this.errors.push(e);
+        });
+    });
+  },
   methods: {
-      noShow()  {
-          console.log(this.show)
-          this.show = ''}
-
+    noShow() {
+      console.log(this.show);
+      this.show = "";
+    }
   },
   computed: {
     isSelected() {
@@ -117,44 +121,27 @@ export default {
       return check;
     },
     listofVenues() {
-      var i;
-      var venue_titles = [];
-      var venue_titles_formatted = [];
-      var j = 0;
-      var b = 1;
-      for (i = 0; i < this.events.length; i++) {
-        venue_titles.push(this.events[i].venue_title);
-      }
-      venue_titles_formatted = Array.from(new Set(venue_titles));
-      venue_titles_formatted[j] = venue_titles_formatted.splice(
-        b,
-        1,
-        venue_titles_formatted[j]
-      )[0];
-
-      return venue_titles_formatted;
+      var venuesList = [];
+      this.events.forEach(element => {
+        venuesList.push(element.venue_title);
+      });
+      return venuesList;
     },
     listofEvents() {
-      var i;
-      var event_titles = [];
-      var shows = [];
-      for (i = 0; i < this.newArrOfEvents.length; i++) {
-        event_titles.push(this.newArrOfEvents[i].event_title);
-      }
-      shows = Array.from(new Set(event_titles));
-
-      return shows.sort();
+      var eventsList = [];
+      this.newArrOfEvents.forEach(element => {
+        eventsList.push(element.event_title);
+      });
+      return eventsList;
     },
 
     newArrOfEvents() {
-        if (this.show === ''){
-            return this.events.filter(item => item.venue_title === this.venue)
-        } else {
-            return this.events.filter(item => item.event_title === this.show)
-        }
-      },
-
-
+      if (this.show === "") {
+        return this.events.filter(item => item.venue_title === this.venue);
+      } else {
+        return this.events.filter(item => item.event_title === this.show);
+      }
+    }
   }
 };
 </script>
