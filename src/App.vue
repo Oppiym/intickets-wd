@@ -6,7 +6,7 @@
         <v-select v-model="venue" :items="listofVenues" label="Выберете площадку" @change="noShow"></v-select>
       </v-col>
       <v-col class="d-flex" cols="12" sm="6">
-        <v-select v-model="show" :items="listofEvents" filled no-data-text="Сначала нужно выбрать площадку" label="Выбирете мероприятие"></v-select>
+        <v-select v-model="show" :items="listofEvents" filled no-data-text="Сначала нужно выбрать площадку" label="Выберите мероприятие"></v-select>
       </v-col>
     </v-row>
     <v-row v-if="isSelected">
