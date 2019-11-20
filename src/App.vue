@@ -6,7 +6,7 @@
         <v-select v-model="venue" :items="listofVenues" label="Выберете площадку" @change="noShow"></v-select>
       </v-col>
       <v-col class="d-flex" cols="12" sm="6">
-        <v-select v-model="show" :items="listofEvents" filled no-data-text="Сначала нужно выбрать площадку" label="Выберете мероприятие"></v-select>
+        <v-select v-model="show" :items="listofEvents" filled no-data-text="Сначала нужно выбрать площадку" label="Выбирете мероприятие"></v-select>
       </v-col>
     </v-row>
     <v-row v-if="isSelected">
@@ -27,7 +27,10 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn :disabled="event.sold_out" color="orange" text> Купить билет </v-btn>
+            <v-btn :disabled="event.sold_out"
+            :href = "'http://iframeab-pre1343.intickets.ru/node/'+ event.show_id"
+
+            color="orange" text> {{buyTextButton}} </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -94,9 +97,13 @@ export default {
     }
   },
   computed: {
-    isSelected() {
+      isSelected() {
       var check = this.venue || this.show;
       return check;
+    },
+    buyTextButton(){
+        var buyText = 'Купить билет'
+        return buyText
     },
     listofVenues() {
       var venuesList = [];
