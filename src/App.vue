@@ -27,10 +27,14 @@
           </v-card-text>
 
           <v-card-actions>
+<<<<<<< Updated upstream
             <v-btn :disabled="event.sold_out"
             :href = "'http://iframeab-pre1343.intickets.ru/node/'+ event.show_id"
 
             color="orange" text> {{buyTextButton}} </v-btn>
+=======
+            <v-btn :disabled="event.sold_out" color="orange" text> {{buttonText}} </v-btn>
+>>>>>>> Stashed changes
           </v-card-actions>
         </v-card>
       </v-col>
@@ -94,6 +98,7 @@ export default {
     noShow() {
       console.log(this.show);
       this.show = "";
+      console.log(this.show + 'теперь пусто')
     }
   },
   computed: {
@@ -101,9 +106,15 @@ export default {
       var check = this.venue || this.show;
       return check;
     },
+<<<<<<< Updated upstream
     buyTextButton(){
         var buyText = 'Купить билет'
         return buyText
+=======
+    buttonText() {
+      var text = 'Купить билет'
+      return text
+>>>>>>> Stashed changes
     },
     listofVenues() {
       var venuesList = [];
